@@ -50,6 +50,10 @@ const testColumn: TableColumnsType<Metrics> = [
     title: 'Visitors',
     dataIndex: 'totalVisitorCount',
   },
+  {
+    title: 'Score',
+    dataIndex: 'score',
+  },
 ];
 
 export type { TableColumnsType };

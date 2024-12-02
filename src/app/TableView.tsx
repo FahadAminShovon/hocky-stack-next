@@ -60,6 +60,7 @@ const TableHeader = <T extends Record<string, any>>({
             {sortBy === name && (
               <td className="m-0 p-0 text-right">
                 <ChevronDown
+                  strokeWidth={4}
                   className={cn(
                     'text-inherit transition-transform duration-300 ease-in-out rotate-0 size-4 text-right ml-auto',
                     {
@@ -231,7 +232,7 @@ const TableView = ({ metricList }: { metricList: Metrics[] }) => {
       <Table
         metricsList={metricList}
         columns={testColumn}
-        defaultSortBy={'totalVisitorCount'}
+        defaultSortBy={'score'}
       />
     </div>
   );

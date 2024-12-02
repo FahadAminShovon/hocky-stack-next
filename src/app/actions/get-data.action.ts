@@ -1,7 +1,8 @@
 import data from '@/app/data/pages.json';
 import { z } from 'zod';
+import { calculateScore } from '../utils';
 
-const websiteMetricsSchema = z.object({
+const websiteMetricsSchemaWithScore = z.object({
   url: z.string(),
   totalCount: z.number(),
   totalVisitorCount: z.number(),
@@ -10,15 +11,25 @@ const websiteMetricsSchema = z.object({
   endsWithCount: z.number(),
   avgScrollPercentage: z.number().min(0).max(100),
   totalPageviewCount: z.number(),
+  score: z.number(),
 });
 
-type Metrics = z.infer<typeof websiteMetricsSchema>;
+const websiteMetricsSchema = websiteMetricsSchemaWithScore.omit({
+  score: true,
+});
+
+type Metrics = z.infer<typeof websiteMetricsSchemaWithScore>;
+type MetricsWithoutScore = z.infer<typeof websiteMetricsSchema>;
 
 async function getDataAction() {
   const parsedData = z.array(websiteMetricsSchema).safeParse(data);
   if (parsedData.success) {
+    const dataWithScore = parsedData.data.map((metrics) => ({
+      ...metrics,
+      score: calculateScore(metrics),
+    }));
     return {
-      data: parsedData.data,
+      data: dataWithScore,
       message: 'Data fetched successfully',
     };
   }
@@ -27,4 +38,4 @@ async function getDataAction() {
 
 export { getDataAction };
 
-export type { Metrics };
+export type { Metrics, MetricsWithoutScore };
