@@ -1,15 +1,20 @@
-import type { NestedKeys } from 'nested-keys-union';
+import type { FieldPath, FieldValues } from 'react-hook-form';
 import type { Metrics } from './actions/get-data.action';
 
-type TableColumnType<TData extends Record<string, any>> = {
+type TableColumnsType<
+  TData extends FieldValues,
+  TDataIndex extends FieldPath<TData> = FieldPath<TData>,
+> = {
   title?: string | React.ReactNode;
-  dataIndex: NestedKeys<TData>;
-  renderData?: (data: TData, index: number) => React.ReactNode;
+  dataIndex: TDataIndex;
+  renderData?: (
+    value: TData[TDataIndex],
+    data: TData,
+    index: number,
+  ) => React.ReactNode;
   sortable?: boolean;
   columnSpan?: number;
-};
-
-type TableColumnsType<T extends Record<string, any>> = TableColumnType<T>[];
+}[];
 
 const testColumn: TableColumnsType<Metrics> = [
   {
@@ -21,10 +26,12 @@ const testColumn: TableColumnsType<Metrics> = [
   {
     title: 'Scroll',
     dataIndex: 'avgScrollPercentage',
+    renderData: (data) => `${data}%`,
   },
   {
     title: 'Bounce',
     dataIndex: 'bounceCount',
+    renderData: (data) => `${data}%`,
   },
   {
     title: 'Starts With',
@@ -35,10 +42,10 @@ const testColumn: TableColumnsType<Metrics> = [
     dataIndex: 'endsWithCount',
   },
   {
-    title: 'Total',
+    title: 'Entries',
     dataIndex: 'totalCount',
   },
-  { title: 'Views', dataIndex: 'totalPageviewCount' },
+  { title: 'Page Views', dataIndex: 'totalPageviewCount' },
   {
     title: 'Visitors',
     dataIndex: 'totalVisitorCount',
