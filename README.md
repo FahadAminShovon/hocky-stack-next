@@ -18,6 +18,7 @@ table component -> src/app/Table
 * the table causes layoutshift if url is too big, it should be handled
 * pagination only shows prev and next, can be improved to have pagination like 1,2 ... 10
 * the urls should be truncated and on hover should show the url details along with full url
+* The table is not responsive, the mobile ui needs to be added
 * The file is hosted from nextjs server for ease of use, it can be hosted separately
 * tanstack-table has some beautiful type utilities, those can be used for better typesafe column generation
 
